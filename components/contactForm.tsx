@@ -15,7 +15,7 @@ function ContactForm() {
             setError("error");
             const myForm = event.target;
             const formData = new FormData(myForm);
-            const res = await fetch("/forms.html", {
+            const res = await fetch("/form.html", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: new URLSearchParams(formData.toString()),
@@ -45,7 +45,7 @@ function ContactForm() {
 
             <form
                 name="contact"
-                // onSubmit={handleFormSubmit}
+                onSubmit={handleFormSubmit}
                 data-netlify="true"
                 method="POST"
                 className="text-black flex flex-col gap-3 align-center"
