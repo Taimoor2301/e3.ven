@@ -1,36 +1,62 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SectionTitle from "./shared/sectionTitle";
 import ColoredSpan from "./shared/coloredSpan";
 import HeadingDescription from "./shared/headingDescription";
+import { useRouter } from "next/router";
 
 function ContactForm() {
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
+    const router = useRouter();
 
-    const handleFormSubmit = async (event: any) => {
-        event.preventDefault();
-        try {
-            setStatus("pending");
-            setError("error");
-            const myForm = event.target;
-            const formData = new FormData(myForm);
-            const res = await fetch("/form.html", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams(formData.toString()),
+    // useEffect(() => {
+    //     router.push('/form.html')
+    // },[])
+
+    // const handleFormSubmit = async (event: any) => {
+    //     event.preventDefault();
+    //     try {
+    //         setStatus("pending");
+    //         setError("error");
+    //         const myForm = event.target;
+    //         const formData = new FormData(myForm);
+    //         const res = await fetch("/form.html", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //             body: new URLSearchParams(formData.toString()),
+    //         });
+    //         if (res.status === 200) {
+    //             setStatus("ok");
+    //         } else {
+    //             setStatus("error");
+    //             setError(`${res.status} ${res.statusText}`);
+    //         }
+    //     } catch (e) {
+    //         setStatus("error");
+    //         setError(`${e}`);
+    //     }
+    // };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const data = new FormData(form);
+
+        await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(data as any).toString(),
+        })
+            .then(() => {
+                alert("Form submitted successfully!");
+            })
+            .catch((error) => {
+                alert("Form submission failed!");
+                console.error("Form submission error:", error);
             });
-            if (res.status === 200) {
-                setStatus("ok");
-            } else {
-                setStatus("error");
-                setError(`${res.status} ${res.statusText}`);
-            }
-        } catch (e) {
-            setStatus("error");
-            setError(`${e}`);
-        }
     };
+
     // code
     return (
         <div className="grid grid-cols-1 gap-5 place-content-center h-full lg:px-16 px-3">
@@ -45,7 +71,7 @@ function ContactForm() {
 
             <form
                 name="contact"
-                onSubmit={handleFormSubmit}
+                onSubmit={handleSubmit}
                 data-netlify="true"
                 method="POST"
                 className="text-black flex flex-col gap-3 align-center"
