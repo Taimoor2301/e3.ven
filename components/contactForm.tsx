@@ -45,7 +45,9 @@ function ContactForm() {
 
             <form
                 name="contact"
-                onSubmit={handleFormSubmit}
+                // onSubmit={handleFormSubmit}
+                data-netlify="true"
+                method="POST"
                 className="text-black flex flex-col gap-3 align-center"
             >
                 <input type="hidden" name="form-name" value="contact" />
