@@ -18,7 +18,7 @@ const ContactForm = () => {
         const form = e.target as HTMLFormElement;
         const data = new FormData(form);
 
-        await fetch("/", {
+        await fetch("/form.html", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams(data as any).toString(),
